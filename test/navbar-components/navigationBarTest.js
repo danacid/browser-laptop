@@ -378,6 +378,8 @@ describe('navigationBar tests', function () {
           this.app.client
             .activateURLMode()
             .waitForExist(urlBarIcon)
+
+            // TODO: Fix
             .getAttribute(urlBarIcon, 'class').then((classes) =>
               classes.includes('fa-unlock') && classes.includes('insecure-color')
         ))
@@ -386,6 +388,7 @@ describe('navigationBar tests', function () {
         .waitForVisible('[data-test-id="insecureConnection"]')
         .keys(Brave.keys.ESCAPE)
     })
+
     it('Shows phishing URL warning', function * () {
       const page1Url = 'data:text/html,<body>i am google</body>'
       yield this.app.client
@@ -397,6 +400,8 @@ describe('navigationBar tests', function () {
           this.app.client
             .activateURLMode()
             .waitForExist(urlBarIcon)
+
+            // TODO: Fix
             .getAttribute(urlBarIcon, 'class').then((classes) =>
               classes.includes('fa-exclamation-triangle') && classes.includes('insecure-color')
         ))
@@ -416,6 +421,8 @@ describe('navigationBar tests', function () {
         .click(activeWebview)
         .waitForExist(titleBar)
         .waitForVisible(urlBarIcon, 1)
+
+        // TODO: Fix
         .getAttribute(urlBarIcon, 'class').then((classes) =>
           classes.includes('fa-unlock') && classes.includes('insecure-color')
         )
@@ -467,6 +474,8 @@ describe('navigationBar tests', function () {
       yield this.app.client
         .activateURLMode()
         .waitForExist(urlBarIcon)
+
+        // TODO: Fix
         .waitUntil(() =>
           this.app.client.getAttribute(urlBarIcon, 'class').then((classes) =>
             classes.includes('fa-unlock') && !classes.includes('insecure-color')
@@ -482,11 +491,14 @@ describe('navigationBar tests', function () {
         .activateURLMode()
         .waitForExist(urlBarIcon)
         .waitUntil(() =>
+
+          // TODO: Fix
           this.app.client.getAttribute(urlBarIcon, 'class').then((classes) =>
             classes.includes('fa-unlock') && classes.includes('insecure-color')
           )
         )
     })
+
     it('shows insecure icon on an HTTP PDF', function * () {
       const page1Url = Brave.server.url('img/test.pdf')
       yield this.app.client
@@ -502,11 +514,14 @@ describe('navigationBar tests', function () {
         .waitForInputText(urlInput, page1Url)
         .waitForExist(urlBarIcon)
         .waitUntil(() =>
+
+          // TODO: Fix
           this.app.client.getAttribute(urlBarIcon, 'class').then((classes) =>
             classes.includes('fa-unlock') && classes.includes('insecure-color')
           )
         )
     })
+
     it('shows secure icon on an HTTPS PDF', function * () {
       const page1Url = 'https://letsencrypt.org/documents/ISRG-CPS-October-18-2016.pdf'
       yield this.app.client
