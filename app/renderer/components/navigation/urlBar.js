@@ -11,6 +11,7 @@ const ipc = require('electron').ipcRenderer
 const ReduxComponent = require('../reduxComponent')
 const UrlBarSuggestions = require('./urlBarSuggestions')
 const UrlBarIcon = require('./urlBarIcon')
+const NavigationBarButtonContainer = require('./buttons/navigationBarButtonContainer')
 
 // Actions
 const windowActions = require('../../../../js/actions/windowActions')
@@ -44,7 +45,6 @@ const {isWindows} = require('../../../common/lib/platformUtil')
 const iconNoScript = require('../../../../img/url-bar-no-script.svg')
 
 const globalStyles = require('../styles/global')
-const commonStyles = require('../styles/commonStyles')
 
 class UrlBar extends React.Component {
   constructor (props) {
@@ -463,12 +463,13 @@ class UrlBar extends React.Component {
 
   // BEM Level: urlbarForm__buttonContainer_showNoScript
   get noScriptInfo () {
-    return <span className={css(commonStyles.rectangleContainer)}
-      onClick={this.onNoScript}>
+    return <NavigationBarButtonContainer isSquare>
       <span className={css(styles.noScript__button)}
+        onClick={this.onNoScript}
         data-l10n-id='noScriptButton'
-        data-test-id='noScriptButton' />
-    </span>
+        data-test-id='noScriptButton'
+      />
+    </NavigationBarButtonContainer>
   }
 
   onNoScript () {
@@ -569,9 +570,9 @@ class UrlBar extends React.Component {
       })}
       action='#'
       id='urlbar'>
-      <div className={css(commonStyles.rectangleContainer)}>
+      <NavigationBarButtonContainer isSquare>
         <UrlBarIcon titleMode={this.props.titleMode} />
-      </div>
+      </NavigationBarButtonContainer>
       {
         this.props.titleMode
         ? this.titleBar
