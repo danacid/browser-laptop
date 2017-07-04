@@ -15,6 +15,8 @@ class NavigationBarButtonContainer extends React.Component {
         this.props.isBoxed && styles.boxed,
         this.props.isNested && styles.nestedContainer,
         this.props.isStandalone && styles.standaloneContainer,
+        this.props.onNavigationBarChrome && styles.chromeContainer,
+
         // BEM style class name unique for each component
         this.props.containerFor
       )}>
@@ -58,6 +60,10 @@ const styles = StyleSheet.create({
       background: '#fff',
       boxShadow: '0px 1px 5px 0px rgba(0, 0, 0, 0.15)'
     }
+  },
+
+  chromeContainer: {
+    width: globalStyles.navigationBar.navigationButtonContainer.width
   }
 })
 
