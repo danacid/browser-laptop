@@ -394,25 +394,27 @@ class UrlBar extends React.Component {
     return ''
   }
 
-  get UrlBarIcon () {
-    return <UrlBarIcon
-      activateSearchEngine={this.props.activateSearchEngine}
-      active={this.props.isActive}
-      isSecure={this.props.isSecure}
-      isHTTPPage={this.props.isHTTPPage}
-      loading={this.props.loading}
-      location={this.props.location}
-      searchSelectEntry={this.props.searchSelectEntry}
-      title={this.props.title}
-      titleMode={this.props.titleMode}
-      isSearching={this.props.location !== this.props.urlbarLocation}
-      activeTabShowingMessageBox={this.props.activeTabShowingMessageBox}
-    />
+  get URLBarIcon () {
+    return <NavigationBarButtonContainer isSquare>
+      <UrlBarIcon
+        activateSearchEngine={this.props.activateSearchEngine}
+        active={this.props.isActive}
+        isSecure={this.props.isSecure}
+        isHTTPPage={this.props.isHTTPPage}
+        loading={this.props.loading}
+        location={this.props.location}
+        searchSelectEntry={this.props.searchSelectEntry}
+        title={this.props.title}
+        titleMode={this.props.titleMode}
+        isSearching={this.props.location !== this.props.urlbarLocation}
+        activeTabShowingMessageBox={this.props.activeTabShowingMessageBox}
+      />
+    </NavigationBarButtonContainer>
   }
 
   // BEM Level: urlbarForm__titleBar
   get titleBar () {
-    return <div id='titleBar' className={css(styles.titleBar)}>
+    return <div id='titleBar' data-test-id='titleBar' className={css(styles.titleBar)}>
       <span className={css(styles.titleBar__host)}>{this.props.hostValue}</span>
       <span>{this.props.hostValue && this.titleValue ? ' | ' : ''}</span>
       <span>{this.titleValue}</span>
@@ -457,7 +459,7 @@ class UrlBar extends React.Component {
     return <legend className={css(
       styles.legend,
       !!this.props.isFocused && styles.legend_isFocused,
-      this.props.isPublisherButtonEnabled && styles.legend_isPublisherButtonEnabled
+      this.props.publisherButtonVisible && styles.legend_urlBarEnd
     )} />
   }
 
@@ -566,13 +568,12 @@ class UrlBar extends React.Component {
     return <form
       className={cx({
         urlbarForm: true,
-        [css(styles.urlbarForm, this.props.isWideURLbarEnabled && styles.urlbarForm_wide, this.props.titleMode && styles.urlbarForm_titleMode, !this.props.titleMode && styles.urlbarForm_notTitleMode, !this.props.showNoScriptInfo && styles.urlbarForm_noScriptDisabled, this.props.publisherButtonVisible && styles.urlbarForm_isPublisherButtonEnabled)]: true
+        // currently publisherButtonVisible is the only element under urlbarForm_urlBarEnd
+        [css(styles.urlbarForm, this.props.isWideURLbarEnabled && styles.urlbarForm_wide, this.props.titleMode && styles.urlbarForm_titleMode, !this.props.titleMode && styles.urlbarForm_notTitleMode, !this.props.showNoScriptInfo && styles.urlbarForm_noScriptDisabled, this.props.publisherButtonVisible && styles.urlbarForm_urlBarEnd)]: true
       })}
       action='#'
       id='urlbar'>
-      <NavigationBarButtonContainer isSquare>
-        <UrlBarIcon titleMode={this.props.titleMode} />
-      </NavigationBarButtonContainer>
+      {this.URLBarIcon}
       {
         this.props.titleMode
         ? this.titleBar
@@ -647,8 +648,8 @@ const styles = StyleSheet.create({
     paddingRight: '10px'
   },
 
-  // ref: navigationBar__buttonContainer_addPublisherButtonContainer on publisherToggle.js
-  urlbarForm_isPublisherButtonEnabled: {
+  // ref: navigationBar__urlBarEnd on navigationBarButtonContainer.js
+  urlbarForm_urlBarEnd: {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
   },
@@ -719,7 +720,7 @@ const styles = StyleSheet.create({
     }
   },
 
-  legend_isPublisherButtonEnabled: {
+  legend_urlBarEnd: {
     ':before': {
       borderRadius: 0
     }

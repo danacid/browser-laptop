@@ -17,7 +17,7 @@ class NavigationBarButtonContainer extends React.Component {
   render () {
     return (
       <div className={css(
-        // Used for bookmarkButtonContainer, PublisherToggle, noScriptInfo, and UrlBarIcon.
+        // Used for bookmarkButtonContainer, PublisherToggle, noScriptInfo, UrlBarIcon, and BrowserAction
         this.props.isSquare && styles.container_square,
 
         // isNested and isStandalone should not be called at the same time

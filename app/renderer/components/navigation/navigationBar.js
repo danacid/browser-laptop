@@ -152,7 +152,7 @@ class NavigationBar extends React.Component {
         : null
       }
       {
-        this.props.showHomeButton
+        !this.props.titleMode && this.props.showHomeButton
         ? (
           <NavigationBarButtonContainer isStandalone onNavigationBarChrome>
             <HomeButton />
@@ -173,7 +173,7 @@ class NavigationBar extends React.Component {
       }
       <UrlBar titleMode={this.props.titleMode} />
       {
-        this.props.showPublisherToggle
+        !this.props.titleMode && this.props.showPublisherToggle
         ? (
           <NavigationBarButtonContainer isSquare isNested
             containerFor={styles.navigationBar__urlBarEnd}
@@ -228,14 +228,11 @@ const styles = StyleSheet.create({
 
  // Applies for the end urlBar nested button
  // currently for PublisherToggle
+ // TODO: remove animation of the toggle when titleMode is enabled
   navigationBar__urlBarEnd: {
     borderLeft: 'none',
     borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-
-    // TODO (Suguru): Refactor navigationBar.less to remove !important.
-    // See the wildcard style under '#navigationBar'.
-    animation: 'none !important'
+    borderBottomLeftRadius: 0
   }
 })
 

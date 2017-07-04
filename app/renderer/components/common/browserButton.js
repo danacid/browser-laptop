@@ -209,13 +209,12 @@ const styles = StyleSheet.create({
     }
   },
 
+  // This should be included in navigationBarButtonContainer
   browserButton_extensionItem: {
-    WebkitAppRegion: 'no-drag',
     backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
     height: '17px',
-    margin: '4px 0 0 0',
-    opacity: '0.85',
-    backgroundRepeat: 'no-repeat'
+    opacity: '0.85'
   },
 
   browserButton_groupedItem: {

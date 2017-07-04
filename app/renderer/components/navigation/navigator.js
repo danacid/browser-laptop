@@ -488,7 +488,7 @@ const styles = StyleSheet.create({
 
   topLevelEndButtons: {
     display: 'flex',
-    flexDirection: 'row',
+    alignItems: 'center',
     position: 'relative'
   },
 
@@ -504,7 +504,8 @@ const styles = StyleSheet.create({
   topLevelEndButtons__buttonSeparator: {
     width: '1px',
     borderLeft: '1px solid #e2e2e2',
-    margin: '4px 3px 4px 3px'
+    margin: '0 3px',
+    height: globalStyles.navigationBar.urlbarForm.height
   },
 
   braveMenuButton: {
