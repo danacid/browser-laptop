@@ -88,7 +88,14 @@ class NormalizedButton extends ImmutableComponent {
       data-l10n-args={JSON.stringify(this.props.l10nArgs || {})}
       data-button-value={this.props.dataButtonValue}
       onClick={this.props.onClick}
-      className={css(styles.normalizedButton, this.props.custom)}
+      className={css(
+        styles.normalizedButton,
+
+        // For homeButton, stopButton, and bookmarkButton
+        this.props.navigationButton && styles.normalizedButton_navigationButton,
+
+        this.props.custom
+      )}
 
       // for publisherToggle.js
       data-test-authorized={this.props.testAuthorized}
@@ -285,6 +292,15 @@ const styles = StyleSheet.create({
     margin: 0,
     userSelect: 'none',
     whiteSpace: 'nowrap'
+  },
+
+  normalizedButton_navigationButton: {
+    display: 'inline-block',
+    width: '100%',
+    height: '100%',
+
+    // cf: https://github.com/brave/browser-laptop/blob/b161b37cf5e9f59be64855ebbc5d04816bfc537b/less/navigationBar.less#L585
+    padding: 0
   }
 })
 
