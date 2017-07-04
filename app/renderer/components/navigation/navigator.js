@@ -136,7 +136,7 @@ class Navigator extends React.Component {
   }
 
   onDoubleClick (e) {
-    if (!e.target.className.includes('navigatorWrapper')) {
+    if (!e.target.className.includes('navigationBarWrapper')) {
       return
     }
     return !isMaximized() ? windowActions.shouldMaximize(getCurrentWindowId()) : windowActions.shouldMinimize(getCurrentWindowId())
@@ -152,11 +152,11 @@ class Navigator extends React.Component {
     ipc.off(messages.SHORTCUT_ACTIVE_FRAME_FORWARD, this.onForward)
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper
-  get navigatorWrapper () {
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper
+  get navigationBarWrapper () {
     return <div className={cx({
-      navigatorWrapper: true,
-      [css(styles.navigatorWrapper)]: true
+      navigationBarWrapper: true,
+      [css(styles.navigationBarWrapper)]: true
     })}
       onDoubleClick={this.onDoubleClick}
       onDragOver={this.onDragOver}
@@ -168,7 +168,7 @@ class Navigator extends React.Component {
     </div>
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper__topLevelStartButtons
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper__topLevelStartButtons
   get topLevelStartButtons () {
     return <div className={cx({
       topLevelStartButtons: true,
@@ -180,7 +180,7 @@ class Navigator extends React.Component {
     </div>
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper__topLevelStartButtons__topLevelStartButtonContainer
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper__topLevelStartButtons__topLevelStartButtonContainer
   get backButton () {
     return <span data-test-id={
       !this.props.canGoBack
@@ -213,7 +213,7 @@ class Navigator extends React.Component {
     </span>
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper__topLevelStartButtons__topLevelStartButtonContainer
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper__topLevelStartButtons__topLevelStartButtonContainer
   get forwardButton () {
     return <span data-test-id={
       !this.props.canGoForward
@@ -246,7 +246,7 @@ class Navigator extends React.Component {
     </span>
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper__topLevelEndButtons
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper__topLevelEndButtons
   get topLevelEndButtons () {
     return <div className={cx({
       topLevelEndButtons: true,
@@ -270,7 +270,7 @@ class Navigator extends React.Component {
       }
       {
         this.props.isCaptionButton
-          ? <span className='buttonSeparator' />
+          ? <span className={css(styles.topLevelEndButtons__buttonSeparator)} />
           : null
       }
     </div>
@@ -279,12 +279,12 @@ class Navigator extends React.Component {
   get extensionButtons () {
     let buttons = this.props.extensionBrowserActions.map((id) => <BrowserAction extensionId={id} />).values()
     buttons = Array.from(buttons)
-    buttons.push(<span className='buttonSeparator' />)
+    buttons.push(<span className={css(styles.topLevelEndButtons__buttonSeparator)} />)
 
     return buttons
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper__topLevelEndButtons__braveMenuButton
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper__topLevelEndButtons__braveMenuButton
   get braveMenuButton () {
     return <BrowserButton className={css(
       styles.braveMenuButton,
@@ -300,17 +300,17 @@ class Navigator extends React.Component {
     />
   }
 
-  // BEM Level: navbarCaptionButtonContainer__navbarMenubarFlexContainer__navigatorWrapper__topLevelEndButtons__counter_braveMenu
+  // BEM Level: navigator__menuBarAndNavigationBar__navigationBarWrapper__topLevelEndButtons__counter_braveMenu
   get counterBraveMenu () {
     return <div data-test-id='counterBraveMenu'
       className={css(
-        styles.braveMenu,
-        (this.props.menuBarVisible || !isWindows()) && styles.braveMenu_right,
+        styles.counterBraveMenu,
+        (this.props.menuBarVisible || !isWindows()) && styles.counterBraveMenu_right,
 
         // delay badge show-up.
         // this is also set for extension badge
         // in a way that both can appear at the same time.
-        styles.braveMenu_subtleShowUp
+        styles.counterBraveMenu_subtleShowUp
       )}>
       {this.props.totalBlocks}
     </div>
@@ -384,10 +384,10 @@ class Navigator extends React.Component {
 
   render () {
     return <div className={cx({
-      navbarCaptionButtonContainer: true,
+      navigator: true,
       allowDragging: this.props.shouldAllowWindowDrag
     })}>
-      <div className={css(styles.navbarCaptionButtonContainer__navbarMenubarFlexContainer)}>
+      <div className={css(styles.navigator__menuBarAndNavigationBar)}>
         {
           this.props.menuBarVisible
             ? <div className='menubarContainer'>
@@ -396,7 +396,7 @@ class Navigator extends React.Component {
             </div>
             : null
         }
-        {this.navigatorWrapper}
+        {this.navigationBarWrapper}
       </div>
       {
         this.props.isCaptionButton
@@ -408,7 +408,7 @@ class Navigator extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  navbarCaptionButtonContainer__navbarMenubarFlexContainer: {
+  navigator__menuBarAndNavigationBar: {
     display: 'flex',
     flex: 1,
     flexDirection: 'column',
@@ -418,7 +418,7 @@ const styles = StyleSheet.create({
     whiteSpace: 'nowrap'
   },
 
-  navigatorWrapper: {
+  navigationBarWrapper: {
     boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'space-between',
@@ -443,7 +443,7 @@ const styles = StyleSheet.create({
     paddingLeft: '4px'
   },
 
-  // cf: navigator__navigationButtonContainer on navitionBar.js
+  // cf: navigationBar__navigationButtonContainer on navitionBar.js
   topLevelStartButtonContainer: {
     width: '34px'
   },
@@ -499,6 +499,12 @@ const styles = StyleSheet.create({
     display: 'none !important'
   },
 
+  topLevelEndButtons__buttonSeparator: {
+    width: '1px',
+    borderLeft: '1px solid #e2e2e2',
+    margin: '4px 3px 4px 3px'
+  },
+
   braveMenuButton: {
     backgroundImage: `-webkit-image-set(url(${braveButton1x}) 1x, url(${braveButton2x}) 2x, url(${braveButton3x}) 3x)`,
     backgroundRepeat: 'no-repeat',
@@ -527,7 +533,7 @@ const styles = StyleSheet.create({
     marginRight: '3px'
   },
 
-  braveMenu: {
+  counterBraveMenu: {
     position: 'absolute',
     left: 'calc(50% - 1px)',
     top: '14px',
@@ -543,12 +549,12 @@ const styles = StyleSheet.create({
     WebkitUserSelect: 'none'
   },
 
-  braveMenu_right: {
+  counterBraveMenu_right: {
     left: 'auto',
     right: '2px'
   },
 
-  braveMenu_subtleShowUp: globalStyles.animations.subtleShowUp
+  counterBraveMenu_subtleShowUp: globalStyles.animations.subtleShowUp
 })
 
 module.exports = ReduxComponent.connect(Navigator)

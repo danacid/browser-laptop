@@ -445,7 +445,6 @@ class UrlBar extends React.Component {
       data-test-id='urlInput'
       className={cx({
         private: this.private,
-        testHookLoadDone: !this.props.loading,
         [css(styles.input, this.props.isWindows && styles.input_windows)]: true
       })}
       readOnly={this.props.titleMode}
@@ -464,9 +463,9 @@ class UrlBar extends React.Component {
 
   // BEM Level: urlbarForm__buttonContainer_showNoScript
   get noScriptInfo () {
-    return <span className={css(commonStyles.navigator__urlbarForm__buttonContainer_showNoScriptInfo)}
+    return <span className={css(commonStyles.urlbarForm__buttonContainer_noScript)}
       onClick={this.onNoScript}>
-      <span className={css(styles.showNoScript__noScriptButton)}
+      <span className={css(styles.noScript__button)}
         data-l10n-id='noScriptButton'
         data-test-id='noScriptButton' />
     </span>
@@ -570,9 +569,8 @@ class UrlBar extends React.Component {
       })}
       action='#'
       id='urlbar'>
-      <div className={css(commonStyles.navigator__urlbarForm__urlbarIconContainer)}>
-        <UrlBarIcon titleMode={this.props.titleMode}
-        />
+      <div className={css(commonStyles.urlbarForm__urlbarIconContainer)}>
+        <UrlBarIcon titleMode={this.props.titleMode} />
       </div>
       {
         this.props.titleMode
@@ -648,7 +646,7 @@ const styles = StyleSheet.create({
     paddingRight: '10px'
   },
 
-  // ref: navigator__buttonContainer_addPublisherButtonContainer on publisherToggle.js
+  // ref: navigationBar__buttonContainer_addPublisherButtonContainer on publisherToggle.js
   urlbarForm_isPublisherButtonEnabled: {
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
@@ -735,7 +733,7 @@ const styles = StyleSheet.create({
     display: 'none'
   },
 
-  showNoScript__noScriptButton: {
+  noScript__button: {
     background: `url(${iconNoScript}) center no-repeat`,
     width: '15px',
     height: '15px',
