@@ -55,19 +55,17 @@ class HomeButton extends ImmutableComponent {
       })
   }
 
+  // BEM Level: navigationBar__buttonContainer
   render () {
-    // BEM Level: navigator__navigationButtonContainer
-    return <span className='navigationButtonContainer'>
-      <button className={cx({
-        normalizeButton: true,
-        [css(styles.navigationButton, styles.navigationButton_homeButton)]: true
-      })}
-        data-test-id='homeButton'
-        data-l10n-id='homeButton'
-        ref={(node) => { this.homeButton = node }}
-        onClick={this.onHome}
-      />
-    </span>
+    return <button className={cx({
+      normalizeButton: true,
+      [css(styles.navigationButton, styles.navigationButton_home)]: true
+    })}
+      data-test-id='homeButton'
+      data-l10n-id='homeButton'
+      ref={(node) => { this.homeButton = node }}
+      onClick={this.onHome}
+    />
   }
 }
 
@@ -84,7 +82,7 @@ const styles = StyleSheet.create({
     padding: 0
   },
 
-  navigationButton_homeButton: {
+  navigationButton_home: {
     background: `url(${homeButton}) center no-repeat`,
     backgroundSize: `16px 16px`
   }
