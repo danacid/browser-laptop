@@ -10,7 +10,6 @@ const ipc = require('electron').ipcRenderer
 const ReduxComponent = require('../reduxComponent')
 const UrlBar = require('./urlBar')
 const AddEditBookmarkHanger = require('../bookmarks/addEditBookmarkHanger')
-const {NormalizedButton} = require('../common/browserButton')
 const NavigationBarButtonContainer = require('./buttons/navigationBarButtonContainer')
 
 // Components -> buttons
@@ -29,6 +28,7 @@ const settings = require('../../../../js/constants/settings')
 
 // State
 const tabState = require('../../../common/state/tabState')
+const menuBarState = require('../../../common/state/menuBarState')
 const publisherState = require('../../../common/lib/publisherUtil')
 const frameStateUtil = require('../../../../js/state/frameStateUtil')
 
@@ -36,7 +36,6 @@ const frameStateUtil = require('../../../../js/state/frameStateUtil')
 const cx = require('../../../../js/lib/classSet')
 const {getBaseUrl} = require('../../../../js/lib/appUrlUtil')
 const siteUtil = require('../../../../js/state/siteUtil')
-const eventUtil = require('../../../../js/lib/eventUtil')
 const {getSetting} = require('../../../../js/settings')
 const {isDarwin} = require('../../../common/lib/platformUtil')
 const {isFullScreen} = require('../../currentWindow')
@@ -97,7 +96,7 @@ class NavigationBar extends React.Component {
     props.titleMode = titleMode
     props.isBookmarked = activeFrameKey !== undefined &&
       activeTab && activeTab.get('bookmarked')
-    props.isWideUrlBarEnabled = getSetting(settings.WIDE_URL_BAR)
+    props.isWideURLbarEnabled = getSetting(settings.WIDE_URL_BAR)
     props.showBookmarkHanger = bookmarkDetail.get('isBookmarkHanger')
     props.isLoading = loading
     props.showPublisherToggle = publisherState.shouldShowAddPublisherButton(state, location, publisherId)
@@ -109,6 +108,15 @@ class NavigationBar extends React.Component {
     props.activeTabId = activeTabId
     props.bookmarkKey = siteUtil.getSiteKey(activeFrame)
     props.showHomeButton = !props.titleMode && getSetting(settings.SHOW_HOME_BUTTON)
+
+    props.location = location
+    props.isDarwin = isDarwin()
+    props.isFullScreen = isFullScreen()
+    props.bookmarkDetail = bookmarkDetail
+    props.menubarVisible = menuBarState.isMenuBarVisible(currentWindow)
+    props.siteSettings = state.get('siteSettings')
+    props.synopsis = state.getIn(['publisherInfo', 'synopsis']) || new Immutable.Map()
+    props.locationInfo = state.get('locationInfo')
 
     return props
   }
@@ -123,7 +131,7 @@ class NavigationBar extends React.Component {
       data-frame-key={this.props.activeFrameKey}
       className={cx({
         titleMode: this.props.titleMode,
-        [css(styles.navigationBar, (this.props.isDarwin && this.props.isFullScreen) && styles.navigationBar_isDarwin_isFullScreen, this.props.titleMode && styles.navigationBar_titleMode, this.props.isWideUrlBarEnabled && styles.navigationBar_wide)]: true
+        [css(styles.navigationBar, (this.props.isDarwin && this.props.isFullScreen) && styles.navigationBar_isDarwin_isFullScreen, this.props.titleMode && styles.navigationBar_titleMode, this.props.isWideURLbarEnabled && styles.navigationBar_wide)]: true
       })}>
       {
         this.props.showBookmarkHanger
