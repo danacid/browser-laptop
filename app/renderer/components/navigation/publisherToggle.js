@@ -8,7 +8,6 @@ const {StyleSheet} = require('aphrodite/no-important')
 
 // Components
 const ReduxComponent = require('../reduxComponent')
-const NavigationBarButtonContainer = require('./buttons/navigationBarButtonContainer')
 const {NormalizedButton} = require('../common/browserButton')
 
 // Actions
@@ -67,57 +66,43 @@ class PublisherToggle extends React.Component {
   }
 
   render () {
-    return <NavigationBarButtonContainer isSquare isNested
-      containerFor={styles.publisherButtonContainer}>
-      <NormalizedButton custom={[
-        (!this.props.isEnabledForPaymentsPublisher && this.props.isVerifiedPublisher) && styles.publisherButtonContainer__button_noFundVerified,
-        (this.props.isEnabledForPaymentsPublisher && this.props.isVerifiedPublisher) && styles.publisherButtonContainer__button_fundVerified,
-        (!this.props.isEnabledForPaymentsPublisher && !this.props.isVerifiedPublisher) && styles.publisherButtonContainer__button_noFundUnverified,
-        (this.props.isEnabledForPaymentsPublisher && !this.props.isVerifiedPublisher) && styles.publisherButtonContainer__button_fundUnverified,
-        styles.publisherButtonContainer__button
-      ]}
-        l10nId={this.l10nString}
-        testId='publisherButton'
-        testAuthorized={this.props.isEnabledForPaymentsPublisher}
-        testVerified={this.props.isVerifiedPublisher}
-        onClick={this.onAuthorizePublisher}
-      />
-    </NavigationBarButtonContainer>
+    return <NormalizedButton custom={[
+      (!this.props.isEnabledForPaymentsPublisher && this.props.isVerifiedPublisher) && styles.publisherToggle_noFundVerified,
+      (this.props.isEnabledForPaymentsPublisher && this.props.isVerifiedPublisher) && styles.publisherToggle_fundVerified,
+      (!this.props.isEnabledForPaymentsPublisher && !this.props.isVerifiedPublisher) && styles.publisherToggle_noFundUnverified,
+      (this.props.isEnabledForPaymentsPublisher && !this.props.isVerifiedPublisher) && styles.publisherToggle_fundUnverified,
+      styles.publisherToggle
+    ]}
+      l10nId={this.l10nString}
+      testId='publisherToggle'
+      testAuthorized={this.props.isEnabledForPaymentsPublisher}
+      testVerified={this.props.isVerifiedPublisher}
+      onClick={this.onAuthorizePublisher}
+    />
   }
 }
 
 const styles = StyleSheet.create({
-  // cf: navigationBar__buttonContainer_bookmarkButtonContainer on navigationBar.js
-  publisherButtonContainer: {
-    borderLeft: 'none',
-    borderTopLeftRadius: 0,
-    borderBottomLeftRadius: 0,
-
-    // TODO (Suguru): Refactor navigationBar.less to remove !important.
-    // See the wildcard style under '#navigationBar'.
-    animation: 'none !important'
-  },
-
-  publisherButtonContainer__button: {
+  publisherToggle: {
     backgroundSize: '18px 18px',
     width: '100%',
     height: '100%'
   },
 
-  publisherButtonContainer__button_noFundVerified: {
+  publisherToggle_noFundVerified: {
     // 1px added due to the check mark
     background: `url(${noFundVerifiedPublisherImage}) calc(50% + 1px) no-repeat`
   },
 
-  publisherButtonContainer__button_fundVerified: {
+  publisherToggle_fundVerified: {
     background: `url(${fundVerifiedPublisherImage}) calc(50% + 1px) no-repeat`
   },
 
-  publisherButtonContainer__button_noFundUnverified: {
+  publisherToggle_noFundUnverified: {
     background: `url(${noFundUnverifiedPublisherImage}) 50% no-repeat`
   },
 
-  publisherButtonContainer__button_fundUnverified: {
+  publisherToggle_fundUnverified: {
     background: `url(${fundUnverifiedPublisherImage}) 50% no-repeat`
   }
 })

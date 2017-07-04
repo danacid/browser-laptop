@@ -174,7 +174,13 @@ class NavigationBar extends React.Component {
       <UrlBar titleMode={this.props.titleMode} />
       {
         this.props.showPublisherToggle
-        ? <PublisherToggle />
+        ? (
+          <NavigationBarButtonContainer isSquare isNested
+            containerFor={styles.navigationBar__urlBarEnd}
+          >
+            <PublisherToggle />
+          </NavigationBarButtonContainer>
+          )
         : null
       }
     </div>
@@ -213,10 +219,23 @@ const styles = StyleSheet.create({
   },
 
   // Applies for the first urlBar nested button
+  // currently for BookmarkButton
   navigationBar__urlBarStart: {
     borderRight: 'none',
     borderTopRightRadius: 0,
     borderBottomRightRadius: 0
+  },
+
+ // Applies for the end urlBar nested button
+ // currently for PublisherToggle
+  navigationBar__urlBarEnd: {
+    borderLeft: 'none',
+    borderTopLeftRadius: 0,
+    borderBottomLeftRadius: 0,
+
+    // TODO (Suguru): Refactor navigationBar.less to remove !important.
+    // See the wildcard style under '#navigationBar'.
+    animation: 'none !important'
   }
 })
 
