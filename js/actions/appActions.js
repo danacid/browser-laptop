@@ -1506,6 +1506,14 @@ const appActions = {
       tag,
       editKey
     })
+  },
+
+  setVersionInfo: function (name, version) {
+    dispatch({
+      actionType: appConstants.APP_SET_VERSION_INFO,
+      name,
+      version
+    })
   }
 }
 

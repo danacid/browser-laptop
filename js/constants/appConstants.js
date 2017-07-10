@@ -141,7 +141,8 @@ const appConstants = {
   APP_SWIPE_LEFT: _,
   APP_SWIPE_RIGHT: _,
   APP_ADD_BOOKMARK: _,
-  APP_EDIT_BOOKMARK: _
+  APP_EDIT_BOOKMARK: _,
+  APP_SET_VERSION_INFO: _
 }
 
 module.exports = mapValuesByKeys(appConstants)
