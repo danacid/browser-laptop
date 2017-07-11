@@ -35,13 +35,6 @@ module.exports.init = () => {
     }
     e.returnValue = misspelled
   })
-  ipcMain.on(messages.GET_MISSPELLING_INFO, (e, word) => {
-    const misspelled = isMisspelled(word)
-    e.returnValue = {
-      isMisspelled: misspelled,
-      suggestions: !misspelled ? [] : spellchecker.getCorrectionsForMisspelling(word)
-    }
-  })
 
   appStore.addChangeListener(() => {
     let addedWords = appStore.getState().getIn(['dictionary', 'addedWords'])

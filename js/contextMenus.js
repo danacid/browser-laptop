@@ -560,17 +560,19 @@ function getMisspelledSuggestions (selection, isMisspelled, suggestions) {
     if (isMisspelled) {
       template.push({
         label: locale.translation('learnSpelling'),
-        click: () => {
-          appActions.addWord(selection, true)
-          // This is needed so the underline goes away
-          webviewActions.replace(selection)
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.webContents.addWord(selection)
+          }
         }
-      }, {
-        label: locale.translation('ignoreSpelling'),
-        click: () => {
-          appActions.addWord(selection, false)
-          // This is needed so the underline goes away
-          webviewActions.replace(selection)
+      }, CommonMenu.separatorMenuItem)
+    } else {
+      template.push({
+        label: locale.translation('forgetLearnedSpelling'),
+        click: (item, focusedWindow) => {
+          if (focusedWindow) {
+            focusedWindow.webContents.removeWord(selection)
+          }
         }
       }, CommonMenu.separatorMenuItem)
     }
@@ -970,9 +972,10 @@ function mainTemplateInit (nodeProps, frame, tab) {
   if (isInputField) {
     let misspelledSuggestions = []
     if (nodeProps.misspelledWord) {
-      const info = ipc.sendSync(messages.GET_MISSPELLING_INFO, nodeProps.selectionText)
-      if (info) {
-        misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, info.isMisspelled, info.suggestions)
+      if (nodeProps.misspelledWord === 'match-brave-custom-dictionary' && !nodeProps.dictionarySuggestions.length) {
+        misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, false, nodeProps.dictionarySuggestions)
+      } else {
+        misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, true, nodeProps.dictionarySuggestions)
       }
     }
 

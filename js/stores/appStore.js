@@ -395,7 +395,6 @@ const handleAppAction = (action) => {
       require('../../app/browser/reducers/sitesReducer'),
       require('../../app/browser/reducers/windowsReducer'),
       require('../../app/browser/reducers/syncReducer'),
-      require('../../app/browser/reducers/spellCheckReducer'),
       require('../../app/browser/reducers/clipboardReducer'),
       require('../../app/browser/reducers/urlBarSuggestionsReducer'),
       require('../../app/browser/reducers/passwordManagerReducer'),
@@ -655,9 +654,6 @@ const handleAppAction = (action) => {
       if (!wordList.includes(action.word)) {
         appState = appState.setIn(path, wordList.push(action.word))
       }
-      break
-    case appConstants.APP_SET_DICTIONARY:
-      appState = appState.setIn(['dictionary', 'locale'], action.locale)
       break
     case appConstants.APP_LEDGER_RECOVERY_STATUS_CHANGED:
       {
