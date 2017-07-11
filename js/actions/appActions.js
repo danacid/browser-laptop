@@ -1482,6 +1482,20 @@ const appActions = {
       tag,
       editKey
     })
+  },
+
+  learnSpelling: function (word) {
+    dispatch({
+      actionType: appConstants.APP_LEARN_SPELLING,
+      word
+    })
+  },
+
+  forgetLearnedSpelling: function (word) {
+    dispatch({
+      actionType: appConstants.APP_FORGET_LEARNED_SPELLING,
+      word
+    })
   }
 }
 

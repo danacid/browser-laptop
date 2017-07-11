@@ -560,19 +560,17 @@ function getMisspelledSuggestions (selection, isMisspelled, suggestions) {
     if (isMisspelled) {
       template.push({
         label: locale.translation('learnSpelling'),
-        click: (item, focusedWindow) => {
-          if (focusedWindow) {
-            focusedWindow.webContents.addWord(selection)
-          }
+        click: () => {
+          appActions.learnSpelling(selection)
+          webviewActions.replace(selection)
         }
       }, CommonMenu.separatorMenuItem)
     } else {
       template.push({
         label: locale.translation('forgetLearnedSpelling'),
-        click: (item, focusedWindow) => {
-          if (focusedWindow) {
-            focusedWindow.webContents.removeWord(selection)
-          }
+        click: () => {
+          appActions.forgetLearnedSpelling(selection)
+          webviewActions.replace(selection)
         }
       }, CommonMenu.separatorMenuItem)
     }
@@ -972,11 +970,10 @@ function mainTemplateInit (nodeProps, frame, tab) {
   if (isInputField) {
     let misspelledSuggestions = []
     if (nodeProps.misspelledWord) {
-      if (nodeProps.misspelledWord === 'match-brave-custom-dictionary' && !nodeProps.dictionarySuggestions.length) {
-        misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, false, nodeProps.dictionarySuggestions)
-      } else {
-        misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, true, nodeProps.dictionarySuggestions)
-      }
+      misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, true, nodeProps.dictionarySuggestions)
+    } else if (nodeProps.properties.hasOwnProperty('learnedSpelling') &&
+               nodeProps.properties['learnedSpelling'] === nodeProps.selectionText) {
+      misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, false, nodeProps.dictionarySuggestions)
     }
 
     const editableItems = getEditableItems(nodeProps.selectionText, nodeProps.editFlags, true)

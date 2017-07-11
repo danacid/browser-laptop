@@ -28,6 +28,7 @@ const diff = require('immutablediff')
 const debounce = require('../lib/debounce')
 const path = require('path')
 const autofill = require('../../app/autofill')
+const spellChecker = require('../../app/spellChecker')
 const nativeImage = require('../../app/nativeImage')
 const filtering = require('../../app/filtering')
 const basicAuth = require('../../app/browser/basicAuth')
@@ -903,6 +904,16 @@ const handleAppAction = (action) => {
       break
     case appConstants.APP_SWIPE_RIGHT:
       appState = appState.set('swipeRightPercent', action.percent)
+      break
+    case appConstants.APP_LEARN_SPELLING:
+      if (typeof action.word === 'string') {
+        spellChecker.addWord(action.word)
+      }
+      break
+    case appConstants.APP_FORGET_LEARNED_SPELLING:
+      if (typeof action.word === 'string') {
+        spellChecker.removeWord(action.word)
+      }
       break
     default:
   }
