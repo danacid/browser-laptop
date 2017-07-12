@@ -557,18 +557,18 @@ class UrlBar extends React.Component {
       id='urlbar'>
       {this.URLBarIcon}
       {
-        this.props.titleMode
-        ? this.titleBar
-        : this.input
+        !this.props.titleMode
+        ? this.input
+        : this.titleBar
       }
       {
-        this.props.titleMode
-        ? null
-        : <legend className={css(
+        !this.props.titleMode
+        ? <legend className={css(
           styles.urlbarForm__legend,
           !!this.props.isFocused && styles.urlbarForm__legend_isFocused,
           this.props.publisherButtonVisible && styles.urlbarForm__legend_urlBarEnd
         )} />
+        : null
       }
       {
         this.props.showDisplayTime
