@@ -552,7 +552,7 @@ function getMisspelledSuggestions (selection, isMisspelled, suggestions, tabId) 
         return {
           label: suggestion,
           click: () => {
-            webviewActions.replace(suggestion)
+            appActions.spellingSuggested(suggestion, tabId)
           }
         }
       }), CommonMenu.separatorMenuItem)

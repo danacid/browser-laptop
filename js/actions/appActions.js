@@ -1484,6 +1484,14 @@ const appActions = {
     })
   },
 
+  spellingSuggested: function (suggestion, tabId) {
+    dispatch({
+      actionType: appConstants.APP_SPELLING_SUGGESTED,
+      suggestion,
+      tabId
+    })
+  },
+
   learnSpelling: function (word, tabId) {
     dispatch({
       actionType: appConstants.APP_LEARN_SPELLING,

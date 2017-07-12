@@ -906,24 +906,30 @@ const handleAppAction = (action) => {
     case appConstants.APP_SWIPE_RIGHT:
       appState = appState.set('swipeRightPercent', action.percent)
       break
+    case appConstants.APP_SPELLING_SUGGESTED:
+      if (typeof action.suggestion === 'string') {
+        const webContents = getWebContents(action.tabId)
+        if (webContents && !webContents.isDestroyed()) {
+          webContents.replaceMisspelling(action.suggestion)
+        }
+      }
+      break
     case appConstants.APP_LEARN_SPELLING:
       if (typeof action.word === 'string') {
+        spellChecker.addWord(action.word)
         const webContents = getWebContents(action.tabId)
-        if (!webContents) {
-          break
+        if (webContents && !webContents.isDestroyed()) {
+          webContents.replaceMisspelling(action.word)
         }
-        spellChecker.addWord(webContents.session, action.word)
-        webContents.replaceMisspelling(action.word)
       }
       break
     case appConstants.APP_FORGET_LEARNED_SPELLING:
       if (typeof action.word === 'string') {
+        spellChecker.removeWord(action.word)
         const webContents = getWebContents(action.tabId)
-        if (!webContents) {
-          break
+        if (webContents && !webContents.isDestroyed()) {
+          webContents.replace(action.word)
         }
-        spellChecker.removeWord(webContents.session, action.word)
-        webContents.replace(action.word)
       }
       break
     default:
