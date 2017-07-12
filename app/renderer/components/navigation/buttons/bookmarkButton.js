@@ -21,9 +21,6 @@ const messages = require('../../../../../js/constants/messages')
 const tabState = require('../../../../common/state/tabState')
 const frameStateUtil = require('../../../../../js/state/frameStateUtil')
 
-// Store
-const windowStore = require('../../../../../js/stores/windowStore')
-
 // Utils
 const siteUtil = require('../../../../../js/state/siteUtil')
 const UrlUtil = require('../../../../../js/lib/urlutil')
@@ -37,14 +34,6 @@ class BookmarkButton extends React.Component {
   constructor (props) {
     super(props)
     this.onToggleBookmark = this.onToggleBookmark.bind(this)
-  }
-
-  get bookmarked () {
-    return this.props.activeFrameKey !== undefined && this.props.bookmarked
-  }
-
-  get activeFrame () {
-    return windowStore.getFrame(this.props.activeFrameKey)
   }
 
   onToggleBookmark () {
@@ -76,14 +65,11 @@ class BookmarkButton extends React.Component {
   mergeProps (state, dispatchProps, ownProps) {
     const currentWindow = state.get('currentWindow')
     const activeFrame = frameStateUtil.getActiveFrame(currentWindow) || Immutable.Map()
-    const activeFrameKey = activeFrame.get('key')
     const activeTabId = activeFrame.get('tabId', tabState.TAB_ID_NONE)
     const activeTab = tabState.getByTabId(state, activeTabId)
 
     const props = {}
-    props.activeFrameKey = activeFrameKey
     props.bookmarked = activeTab && activeTab.get('bookmarked')
-    props.sites = state.get('sites')
 
     return props
   }

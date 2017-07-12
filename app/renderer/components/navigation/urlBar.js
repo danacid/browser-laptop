@@ -421,15 +421,6 @@ class UrlBar extends React.Component {
     </div>
   }
 
-  // BEM Level: urlbarForm__titleBar__loadTime
-  get loadTimer () {
-    return <span className={css(
-      styles.loadTime,
-      this.props.isActive && styles.loadTime_onFocus
-    )}
-      data-test-id='loadTime'>{this.loadTime}</span>
-  }
-
   // BEM Level: urlbarForm__input
   get input () {
     return <input type='text'
@@ -452,15 +443,6 @@ class UrlBar extends React.Component {
       readOnly={this.props.titleMode}
       ref={(node) => { this.urlInput = node }}
     />
-  }
-
-  // BEM Level: urlbarForm__legend
-  get legend () {
-    return <legend className={css(
-      styles.legend,
-      !!this.props.isFocused && styles.legend_isFocused,
-      this.props.publisherButtonVisible && styles.legend_urlBarEnd
-    )} />
   }
 
   // BEM Level: urlbarForm__buttonContainer_showNoScript
@@ -582,11 +564,19 @@ class UrlBar extends React.Component {
       {
         this.props.titleMode
         ? null
-        : this.legend
+        : <legend className={css(
+          styles.urlbarForm__legend,
+          !!this.props.isFocused && styles.urlbarForm__legend_isFocused,
+          this.props.publisherButtonVisible && styles.urlbarForm__legend_urlBarEnd
+        )} />
       }
       {
         this.props.showDisplayTime
-        ? this.loadTimer
+        ? <span className={css(
+          styles.urlbarForm__loadTime,
+          this.props.isActive && styles.urlbarForm__loadTime_onFocus
+        )}
+          data-test-id='loadTime'>{this.loadTime}</span>
         : null
       }
       {
@@ -654,6 +644,44 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 0
   },
 
+  urlbarForm__legend: {
+    ':before': {
+      display: 'none',
+      content: '" "',
+      position: 'absolute',
+      borderRadius: '0 4px 4px 0',
+      color: '#333',
+      boxShadow: `inset 0 0 0 1px ${globalStyles.color.urlBarOutline}, inset 0 0 0 3px ${globalStyles.color.focusUrlbarOutline}`,
+      outline: 'none',
+      top: 0,
+      bottom: 0,
+      right: 0,
+      left: 0,
+      zIndex: globalStyles.zindex.zindexNavigationBar
+    }
+  },
+
+  urlbarForm__legend_isFocused: {
+    ':before': {
+      display: 'block'
+    }
+  },
+
+  urlbarForm__legend_urlBarEnd: {
+    ':before': {
+      borderRadius: 0
+    }
+  },
+
+  urlbarForm__loadTime: {
+    color: globalStyles.color.loadTimeColor,
+    fontSize: '12px'
+  },
+
+  urlbarForm__loadTime_onFocus: {
+    display: 'none'
+  },
+
   titleBar: {
     display: 'inline-block',
     color: globalStyles.color.chromeText,
@@ -695,44 +723,6 @@ const styles = StyleSheet.create({
     margin: 0, // #5624
     top: 0, // #5624
     width: '100%'
-  },
-
-  legend: {
-    ':before': {
-      display: 'none',
-      content: '" "',
-      position: 'absolute',
-      borderRadius: '0 4px 4px 0',
-      color: '#333',
-      boxShadow: `inset 0 0 0 1px ${globalStyles.color.urlBarOutline}, inset 0 0 0 3px ${globalStyles.color.focusUrlbarOutline}`,
-      outline: 'none',
-      top: 0,
-      bottom: 0,
-      right: 0,
-      left: 0,
-      zIndex: globalStyles.zindex.zindexNavigationBar
-    }
-  },
-
-  legend_isFocused: {
-    ':before': {
-      display: 'block'
-    }
-  },
-
-  legend_urlBarEnd: {
-    ':before': {
-      borderRadius: 0
-    }
-  },
-
-  loadTime: {
-    color: globalStyles.color.loadTimeColor,
-    fontSize: '12px'
-  },
-
-  loadTime_onFocus: {
-    display: 'none'
   },
 
   noScript__button: {
