@@ -36,6 +36,7 @@ const webtorrent = require('../../app/browser/webtorrent')
 const assert = require('assert')
 const profiles = require('../../app/browser/profiles')
 const {zoomLevel} = require('../../app/common/constants/toolbarUserInterfaceScale')
+const {getWebContents} = require('../../app/browser/webContentsCache')
 
 // state helpers
 const {makeImmutable} = require('../../app/common/state/immutableUtil')
@@ -907,12 +908,22 @@ const handleAppAction = (action) => {
       break
     case appConstants.APP_LEARN_SPELLING:
       if (typeof action.word === 'string') {
-        spellChecker.addWord(action.word)
+        const webContents = getWebContents(action.tabId)
+        if (!webContents) {
+          break
+        }
+        spellChecker.addWord(webContents.session, action.word)
+        webContents.replaceMisspelling(action.word)
       }
       break
     case appConstants.APP_FORGET_LEARNED_SPELLING:
       if (typeof action.word === 'string') {
-        spellChecker.removeWord(action.word)
+        const webContents = getWebContents(action.tabId)
+        if (!webContents) {
+          break
+        }
+        spellChecker.removeWord(webContents.session, action.word)
+        webContents.replace(action.word)
       }
       break
     default:

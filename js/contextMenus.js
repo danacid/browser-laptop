@@ -541,7 +541,7 @@ function tabTemplateInit (frameProps) {
   return menuUtil.sanitizeTemplateItems(template)
 }
 
-function getMisspelledSuggestions (selection, isMisspelled, suggestions) {
+function getMisspelledSuggestions (selection, isMisspelled, suggestions, tabId) {
   const hasSelection = selection.length > 0
   const template = []
   if (hasSelection) {
@@ -561,16 +561,14 @@ function getMisspelledSuggestions (selection, isMisspelled, suggestions) {
       template.push({
         label: locale.translation('learnSpelling'),
         click: () => {
-          appActions.learnSpelling(selection)
-          webviewActions.replace(selection)
+          appActions.learnSpelling(selection, tabId)
         }
       }, CommonMenu.separatorMenuItem)
     } else {
       template.push({
         label: locale.translation('forgetLearnedSpelling'),
         click: () => {
-          appActions.forgetLearnedSpelling(selection)
-          webviewActions.replace(selection)
+          appActions.forgetLearnedSpelling(selection, tabId)
         }
       }, CommonMenu.separatorMenuItem)
     }
@@ -970,10 +968,16 @@ function mainTemplateInit (nodeProps, frame, tab) {
   if (isInputField) {
     let misspelledSuggestions = []
     if (nodeProps.misspelledWord) {
-      misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, true, nodeProps.dictionarySuggestions)
-    } else if (nodeProps.properties.hasOwnProperty('learnedSpelling') &&
-               nodeProps.properties['learnedSpelling'] === nodeProps.selectionText) {
-      misspelledSuggestions = getMisspelledSuggestions(nodeProps.selectionText, false, nodeProps.dictionarySuggestions)
+      misspelledSuggestions =
+        getMisspelledSuggestions(nodeProps.selectionText,
+                                 true, nodeProps.dictionarySuggestions,
+                                 frame.get('tabId'))
+    } else if (nodeProps.properties.hasOwnProperty('customDictionaryWord') &&
+               nodeProps.properties['customDictionaryWord'] === nodeProps.selectionText) {
+      misspelledSuggestions =
+        getMisspelledSuggestions(nodeProps.selectionText,
+                                 false, nodeProps.dictionarySuggestions,
+                                  frame.get('tabId'))
     }
 
     const editableItems = getEditableItems(nodeProps.selectionText, nodeProps.editFlags, true)

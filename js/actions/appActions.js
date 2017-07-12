@@ -1484,17 +1484,19 @@ const appActions = {
     })
   },
 
-  learnSpelling: function (word) {
+  learnSpelling: function (word, tabId) {
     dispatch({
       actionType: appConstants.APP_LEARN_SPELLING,
-      word
+      word,
+      tabId
     })
   },
 
-  forgetLearnedSpelling: function (word) {
+  forgetLearnedSpelling: function (word, tabId) {
     dispatch({
       actionType: appConstants.APP_FORGET_LEARNED_SPELLING,
-      word
+      word,
+      tabId
     })
   }
 }
