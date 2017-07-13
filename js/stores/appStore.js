@@ -28,7 +28,6 @@ const diff = require('immutablediff')
 const debounce = require('../lib/debounce')
 const path = require('path')
 const autofill = require('../../app/autofill')
-const spellChecker = require('../../app/spellChecker')
 const nativeImage = require('../../app/nativeImage')
 const filtering = require('../../app/filtering')
 const basicAuth = require('../../app/browser/basicAuth')
@@ -36,7 +35,6 @@ const webtorrent = require('../../app/browser/webtorrent')
 const assert = require('assert')
 const profiles = require('../../app/browser/profiles')
 const {zoomLevel} = require('../../app/common/constants/toolbarUserInterfaceScale')
-const {getWebContents} = require('../../app/browser/webContentsCache')
 
 // state helpers
 const {makeImmutable} = require('../../app/common/state/immutableUtil')
@@ -400,6 +398,7 @@ const handleAppAction = (action) => {
       require('../../app/browser/reducers/clipboardReducer'),
       require('../../app/browser/reducers/urlBarSuggestionsReducer'),
       require('../../app/browser/reducers/passwordManagerReducer'),
+      require('../../app/browser/reducers/spellCheckerReducer'),
       require('../../app/browser/reducers/tabMessageBoxReducer'),
       require('../../app/browser/reducers/dragDropReducer'),
       require('../../app/browser/reducers/extensionsReducer'),
@@ -905,32 +904,6 @@ const handleAppAction = (action) => {
       break
     case appConstants.APP_SWIPE_RIGHT:
       appState = appState.set('swipeRightPercent', action.percent)
-      break
-    case appConstants.APP_SPELLING_SUGGESTED:
-      if (typeof action.suggestion === 'string') {
-        const webContents = getWebContents(action.tabId)
-        if (webContents && !webContents.isDestroyed()) {
-          webContents.replaceMisspelling(action.suggestion)
-        }
-      }
-      break
-    case appConstants.APP_LEARN_SPELLING:
-      if (typeof action.word === 'string') {
-        spellChecker.addWord(action.word)
-        const webContents = getWebContents(action.tabId)
-        if (webContents && !webContents.isDestroyed()) {
-          webContents.replaceMisspelling(action.word)
-        }
-      }
-      break
-    case appConstants.APP_FORGET_LEARNED_SPELLING:
-      if (typeof action.word === 'string') {
-        spellChecker.removeWord(action.word)
-        const webContents = getWebContents(action.tabId)
-        if (webContents && !webContents.isDestroyed()) {
-          webContents.replace(action.word)
-        }
-      }
       break
     default:
   }
