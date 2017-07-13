@@ -645,17 +645,6 @@ const handleAppAction = (action) => {
         }
       }
       break
-    case appConstants.APP_ADD_WORD:
-      let listType = 'ignoredWords'
-      if (action.learn) {
-        listType = 'addedWords'
-      }
-      const path = ['dictionary', listType]
-      let wordList = appState.getIn(path)
-      if (!wordList.includes(action.word)) {
-        appState = appState.setIn(path, wordList.push(action.word))
-      }
-      break
     case appConstants.APP_LEDGER_RECOVERY_STATUS_CHANGED:
       {
         const date = new Date().getTime()

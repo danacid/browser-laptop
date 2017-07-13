@@ -4,28 +4,30 @@
 
 'use strict'
 
-const Immutable = require('immutable')
 const appConstants = require('../../../js/constants/appConstants')
 const {makeImmutable} = require('../../common/state/immutableUtil')
 const {getWebContents} = require('../webContentsCache')
 const spellChecker = require('../../spellChecker')
 
 const migrate = (state) => {
-  const addedWords= state.getIn(['dictionary', 'addedWords'])
-  const ignoredWords= state.getIn(['dictionary', 'ignoredWords'])
-  if (addedWords.size) {
-    addedWords.forEach((word) => {
-      spellChecker.addWord(word)
-    })
-    state = state.setIn(['legacyDictionary', 'addedWords'], addedWords)
-    state = state.setIn(['dictionary', 'addedWords'], new Immutable.List())
-  }
-  if (ignoredWords.size) {
-    ignoredWords.forEach((word) => {
-      spellChecker.addWord(word)
-    })
-    state = state.setIn(['legacyDictionary', 'ignoredWords'], ignoredWords)
-    state = state.setIn(['dictionary', 'ignoredWords'], new Immutable.List())
+  if (state.get('dictionary')) {
+    const addedWords = state.getIn(['dictionary', 'addedWords'])
+    const ignoredWords = state.getIn(['dictionary', 'ignoredWords'])
+    if (addedWords.size) {
+      addedWords.forEach((word) => {
+        spellChecker.addWord(word)
+      })
+      state = state.setIn(['legacyDictionary', 'addedWords'], addedWords)
+      state = state.deleteIn(['dictionary', 'addedWords'])
+    }
+    if (ignoredWords.size) {
+      ignoredWords.forEach((word) => {
+        spellChecker.addWord(word)
+      })
+      state = state.setIn(['legacyDictionary', 'ignoredWords'], ignoredWords)
+      state = state.deleteIn(['dictionary', 'ignoredWords'])
+    }
+    state = state.delete('dictionary')
   }
   return state
 }
