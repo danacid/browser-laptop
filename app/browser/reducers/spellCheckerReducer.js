@@ -17,15 +17,11 @@ const migrate = (state) => {
       addedWords.forEach((word) => {
         spellChecker.addWord(word)
       })
-      state = state.setIn(['legacyDictionary', 'addedWords'], addedWords)
-      state = state.deleteIn(['dictionary', 'addedWords'])
     }
     if (ignoredWords.size) {
       ignoredWords.forEach((word) => {
         spellChecker.addWord(word)
       })
-      state = state.setIn(['legacyDictionary', 'ignoredWords'], ignoredWords)
-      state = state.deleteIn(['dictionary', 'ignoredWords'])
     }
     state = state.delete('dictionary')
   }

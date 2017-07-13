@@ -79,10 +79,6 @@ AppStore
     y: number
   },
   defaultWindowWidth: number, // DEPRECATED (0.12.7); replaced w/ defaultWindowParams.width
-  legacyDictionary: {
-    addedWords: Array<string>, // list of words to add to the dictionary
-    ignoredWords: Array<string>, // list of words to ignore
-  },
   downloads: [{
     [downloadId]: {
       filename: string,
